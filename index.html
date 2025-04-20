@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>GREEN-API Tester</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>GREEN-API Тестовая страница</h1>
+
+  <label>idInstance:</label>
+  <input type="text" id="idInstance"><br>
+
+  <label>ApiTokenInstance:</label>
+  <input type="text" id="apiToken"><br>
+
+  <label>Номер телефона (в формате 79991234567):</label>
+  <input type="text" id="phoneNumber"><br>
+
+  <label>Текст сообщения:</label>
+  <input type="text" id="messageText"><br>
+
+  <label>URL файла:</label>
+  <input type="text" id="fileUrl"><br>
+
+  <button onclick="getSettings()">getSettings</button>
+  <button onclick="getState()">getStateInstance</button>
+  <button onclick="sendMessage()">sendMessage</button>
+  <button onclick="sendFile()">sendFileByUrl</button>
+
+  <h3>Ответ:</h3>
+  <pre id="response"></pre>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
