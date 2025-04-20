@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Green API Test</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 20px; }
+    input, textarea { width: 80%; padding: 10px; margin: 10px 0; }
+    button { padding: 10px 20px; margin: 5px; }
+    .response { background-color: #f0f0f0; padding: 10px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>Green API Demo</h1>
+  
+  <input type="text" id="idInstance" placeholder="Введите idInstance">
+  <input type="text" id="apiTokenInstance" placeholder="Введите ApiTokenInstance">
+  <input type="text" id="phone" placeholder="Номер получателя в формате 79123456789">
+  <input type="text" id="message" placeholder="Сообщение">
+
+  <button onclick="callApi('getSettings')">getSettings</button>
+  <button onclick="callApi('getStateInstance')">getStateInstance</button>
+  <button onclick="sendMessage()">sendMessage</button>
+  <button onclick="sendFileByUrl()">sendFileByUrl</button>
+
+  <div id="response" class="response"></div>
+
+  <script>
+    async function callApi(method) {
+      const id = document.getElementById('idInstance').value;
+      const token = document.getElementById('apiTokenInstance').value;
+      const url = `https://api.green-api.com/waInstance${id}/${method}/${token}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function sendMessage() {
+      const id = document.getElementById('idInstance').value;
+      const token = document.getElementById('apiTokenInstance').value;
+      const phone = document.getElementById('phone').value;
+      const message = document.getElementById('message').value;
+      const url = `https://api.green-api.com/waInstance${id}/sendMessage/${token}`;
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chatId: `${phone}@c.us`, message })
+      });
+      const data = await res.json();
+      document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function sendFileByUrl() {
+      const id = document.getElementById('idInstance').value;
+      const token = document.getElementById('apiTokenInstance').value;
+      const phone = document.getElementById('phone').value;
+      const urlToSend = prompt("Введите URL файла:");
+      const url = `https://api.green-api.com/waInstance${id}/sendFileByUrl/${token}`;
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chatId: `${phone}@c.us`, urlFile: urlToSend, fileName: "file" })
+      });
+      const data = await res.json();
+      document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
