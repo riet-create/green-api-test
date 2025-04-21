@@ -1,56 +1,62 @@
-function getValues() {
-  return {
-    id: document.getElementById("idInstance").value,
-    token: document.getElementById("apiToken").value,
-    phone: document.getElementById("phoneNumber").value,
-    text: document.getElementById("messageText").value,
-    fileUrl: document.getElementById("fileUrl").value
-  };
+function getCredentials() {
+  const id = document.getElementById('idInstance').value.trim();
+  const token = document.getElementById('apiTokenInstance').value.trim();
+  return { id, token };
 }
 
 function showResponse(data) {
-  document.getElementById("response").textContent = JSON.stringify(data, null, 2);
+  document.getElementById('responseOutput').textContent = JSON.stringify(data, null, 2);
 }
 
-async function getSettings() {
-  const { id, token } = getValues();
+document.getElementById('getSettingsBtn').addEventListener('click', async () => {
+  const { id, token } = getCredentials();
   const res = await fetch(`https://api.green-api.com/waInstance${id}/getSettings/${token}`);
   const data = await res.json();
   showResponse(data);
-}
+});
 
-async function getState() {
-  const { id, token } = getValues();
+document.getElementById('getStateBtn').addEventListener('click', async () => {
+  const { id, token } = getCredentials();
   const res = await fetch(`https://api.green-api.com/waInstance${id}/getStateInstance/${token}`);
   const data = await res.json();
   showResponse(data);
-}
+});
 
-async function sendMessage() {
-  const { id, token, phone, text } = getValues();
+document.getElementById('sendMessageBtn').addEventListener('click', async () => {
+  const { id, token } = getCredentials();
+  const chatId = prompt("Введите номер получателя в формате 79991112233@c.us");
+  const message = prompt("Введите текст сообщения");
+
   const res = await fetch(`https://api.green-api.com/waInstance${id}/sendMessage/${token}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      chatId: `${phone}@c.us`,
-      message: text
+      chatId,
+      message
     })
   });
+
   const data = await res.json();
   showResponse(data);
-}
+});
 
-async function sendFile() {
-  const { id, token, phone, fileUrl } = getValues();
+document.getElementById('sendFileBtn').addEventListener('click', async () => {
+  const { id, token } = getCredentials();
+  const chatId = prompt("Введите номер получателя в формате 79991112233@c.us");
+  const url = prompt("Введите URL файла");
+  const filename = prompt("Введите имя файла (например, photo.jpg)");
+
   const res = await fetch(`https://api.green-api.com/waInstance${id}/sendFileByUrl/${token}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      chatId: `${phone}@c.us`,
-      urlFile: fileUrl,
-      fileName: "file"
+      chatId,
+      urlFile: url,
+      fileName: filename
     })
   });
+
   const data = await res.json();
   showResponse(data);
-}
+});
+

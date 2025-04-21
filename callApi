@@ -1,0 +1,9 @@
+async function callApi(method) {
+  const id = document.getElementById('idInstance').value;
+  const token = document.getElementById('apiTokenInstance').value;
+  const url = `http://localhost:3000/api/${method}?idInstance=${id}&apiTokenInstance=${token}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+}
+
