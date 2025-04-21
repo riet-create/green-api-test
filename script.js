@@ -1,62 +1,78 @@
-function getCredentials() {
-  const id = document.getElementById('idInstance').value.trim();
-  const token = document.getElementById('apiTokenInstance').value.trim();
-  return { id, token };
-}
+document.getElementById("getSettings").onclick = function() {
+    const idInstance = document.getElementById("idInstance").value;
+    const apiToken = document.getElementById("apiToken").value;
 
-function showResponse(data) {
-  document.getElementById('responseOutput').textContent = JSON.stringify(data, null, 2);
-}
+    fetch(`https://api.green-api.com/waInstance/getSettings/${idInstance}?ApiTokenInstance=${apiToken}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("response").textContent = JSON.stringify(data, null, 2);
+        })
+        .catch(error => {
+            document.getElementById("response").textContent = `Ошибка: ${error}`;
+        });
+};
 
-document.getElementById('getSettingsBtn').addEventListener('click', async () => {
-  const { id, token } = getCredentials();
-  const res = await fetch(`https://api.green-api.com/waInstance${id}/getSettings/${token}`);
-  const data = await res.json();
-  showResponse(data);
-});
+document.getElementById("getStateInstance").onclick = function() {
+    const idInstance = document.getElementById("idInstance").value;
+    const apiToken = document.getElementById("apiToken").value;
 
-document.getElementById('getStateBtn').addEventListener('click', async () => {
-  const { id, token } = getCredentials();
-  const res = await fetch(`https://api.green-api.com/waInstance${id}/getStateInstance/${token}`);
-  const data = await res.json();
-  showResponse(data);
-});
+    fetch(`https://api.green-api.com/waInstance/getStateInstance/${idInstance}?ApiTokenInstance=${apiToken}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("response").textContent = JSON.stringify(data, null, 2);
+        })
+        .catch(error => {
+            document.getElementById("response").textContent = `Ошибка: ${error}`;
+        });
+};
 
-document.getElementById('sendMessageBtn').addEventListener('click', async () => {
-  const { id, token } = getCredentials();
-  const chatId = prompt("Введите номер получателя в формате 79991112233@c.us");
-  const message = prompt("Введите текст сообщения");
+document.getElementById("sendMessage").onclick = function() {
+    const idInstance = document.getElementById("idInstance").value;
+    const apiToken = document.getElementById("apiToken").value;
+    const phoneNumber = document.getElementById("phoneNumber").value;
+    const messageText = document.getElementById("messageText").value;
 
-  const res = await fetch(`https://api.green-api.com/waInstance${id}/sendMessage/${token}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      chatId,
-      message
+    fetch(`https://api.green-api.com/waInstance/sendMessage/${idInstance}?ApiTokenInstance=${apiToken}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            phoneNumber: phoneNumber,
+            textMessage: messageText
+        })
     })
-  });
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("response").textContent = JSON.stringify(data, null, 2);
+        })
+        .catch(error => {
+            document.getElementById("response").textContent = `Ошибка: ${error}`;
+        });
+};
 
-  const data = await res.json();
-  showResponse(data);
-});
+document.getElementById("sendFileByUrl").onclick = function() {
+    const idInstance = document.getElementById("idInstance").value;
+    const apiToken = document.getElementById("apiToken").value;
+    const phoneNumber = document.getElementById("phoneNumber").value;
+    const fileUrl = document.getElementById("fileUrl").value;
 
-document.getElementById('sendFileBtn').addEventListener('click', async () => {
-  const { id, token } = getCredentials();
-  const chatId = prompt("Введите номер получателя в формате 79991112233@c.us");
-  const url = prompt("Введите URL файла");
-  const filename = prompt("Введите имя файла (например, photo.jpg)");
-
-  const res = await fetch(`https://api.green-api.com/waInstance${id}/sendFileByUrl/${token}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      chatId,
-      urlFile: url,
-      fileName: filename
+    fetch(`https://api.green-api.com/waInstance/sendFileByUrl/${idInstance}?ApiTokenInstance=${apiToken}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            phoneNumber: phoneNumber,
+            fileUrl: fileUrl
+        })
     })
-  });
-
-  const data = await res.json();
-  showResponse(data);
-});
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("response").textContent = JSON.stringify(data, null, 2);
+        })
+        .catch(error => {
+            document.getElementById("response").textContent = `Ошибка: ${error}`;
+        });
+};
 
