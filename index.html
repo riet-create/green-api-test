@@ -2,84 +2,28 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>GREEN-API Tester</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Green API Test</title>
   <style>
-    body { font-family: sans-serif; text-align: center; padding: 20px; }
-    input, textarea { width: 80%; padding: 10px; margin: 10px 0; }
-    button { padding: 10px 20px; margin: 5px; }
-    .response { background-color: #f0f0f0; padding: 10px; white-space: pre-wrap; }
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, button { margin: 5px 0; padding: 8px; width: 300px; }
+    pre { background: #f4f4f4; padding: 10px; border: 1px solid #ccc; }
   </style>
 </head>
 <body>
-  <h1>GREEN-API Тестовая страница</h1>
+  <h1>Тестирование Green API</h1>
 
-  <label>idInstance:</label>
-  <input type="text" id="idInstance" placeholder="Введите idInstance"><br>
+  <input type="text" id="idInstance" placeholder="Введите ID Instance"><br>
+  <input type="text" id="apiTokenInstance" placeholder="Введите API Token Instance"><br>
 
-  <label>ApiTokenInstance:</label>
-  <input type="text" id="apiTokenInstance" placeholder="Введите ApiTokenInstance"><br>
+  <button id="getSettingsBtn">getSettings</button>
+  <button id="getStateBtn">getStateInstance</button>
+  <button id="sendMessageBtn">sendMessage</button>
+  <button id="sendFileBtn">sendFileByUrl</button>
 
-  <label>Номер телефона (в формате 79991234567):</label>
-  <input type="text" id="phone" placeholder="Номер получателя"><br>
+  <pre id="responseOutput"></pre>
 
-  <label>Текст сообщения:</label>
-  <input type="text" id="message" placeholder="Сообщение"><br>
-
-  <label>URL файла:</label>
-  <input type="text" id="fileUrl" placeholder="URL файла"><br>
-
-  <button onclick="callApi('getSettings')">getSettings</button>
-  <button onclick="callApi('getStateInstance')">getStateInstance</button>
-  <button onclick="sendMessage()">sendMessage</button>
-  <button onclick="sendFileByUrl()">sendFileByUrl</button>
-
-  <h3>Ответ:</h3>
-  <pre id="response" class="response"></pre>
-
-  <script>
-    // Вызов методов GREEN-API
-    async function callApi(method) {
-      const id = document.getElementById('idInstance').value;
-      const token = document.getElementById('apiTokenInstance').value;
-      const url = `https://api.green-api.com/waInstance${id}/${method}/${token}`;
-      const res = await fetch(url);
-      const data = await res.json();
-      document.getElementById('response').textContent = JSON.stringify(data, null, 2);
-    }
-
-    // Отправка сообщения
-    async function sendMessage() {
-      const id = document.getElementById('idInstance').value;
-      const token = document.getElementById('apiTokenInstance').value;
-      const phone = document.getElementById('phone').value;
-      const message = document.getElementById('message').value;
-      const url = `https://api.green-api.com/waInstance${id}/sendMessage/${token}`;
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chatId: `${phone}@c.us`, message })
-      });
-      const data = await res.json();
-      document.getElementById('response').textContent = JSON.stringify(data, null, 2);
-    }
-
-    // Отправка файла по URL
-    async function sendFileByUrl() {
-      const id = document.getElementById('idInstance').value;
-      const token = document.getElementById('apiTokenInstance').value;
-      const phone = document.getElementById('phone').value;
-      const urlToSend = document.getElementById('fileUrl').value;
-      const url = `https://api.green-api.com/waInstance${id}/sendFileByUrl/${token}`;
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chatId: `${phone}@c.us`, urlFile: urlToSend, fileName: "file" })
-      });
-      const data = await res.json();
-      document.getElementById('response').textContent = JSON.stringify(data, null, 2);
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
+
 
