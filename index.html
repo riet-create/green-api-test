@@ -4,53 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GREEN-API Тестовая страница</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        input, button {
-            margin-bottom: 10px;
-            padding: 10px;
-            width: 300px;
-        }
-        #response {
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            white-space: pre-wrap;
-            background-color: #f9f9f9;
-            max-width: 100%;
-            width: 100%;
-            height: 200px;
-            overflow-y: auto;
-        }
-    </style>
 </head>
 <body>
-
     <h1>GREEN-API Тестовая страница</h1>
+    
     <label for="idInstance">idInstance:</label>
     <input type="text" id="idInstance" placeholder="Введите idInstance"><br>
 
     <label for="apiToken">ApiTokenInstance:</label>
     <input type="text" id="apiToken" placeholder="Введите ApiTokenInstance"><br>
 
-    <label for="phoneNumber">Номер телефона (в формате 79991234567):</label>
-    <input type="text" id="phoneNumber" placeholder="Номер получателя"><br>
+    <label for="phone">Номер телефона (в формате 79991234567):</label>
+    <input type="text" id="phone" placeholder="Номер получателя"><br>
 
-    <label for="messageText">Текст сообщения:</label>
-    <input type="text" id="messageText" placeholder="Сообщение"><br>
+    <label for="message">Текст сообщения:</label>
+    <input type="text" id="message" placeholder="Сообщение"><br>
 
     <label for="fileUrl">URL файла:</label>
-    <input type="text" id="fileUrl" placeholder="URL файла"><br>
+    <input type="text" id="fileUrl" placeholder="URL файла"><br><br>
 
     <button id="getSettings">getSettings</button>
     <button id="getStateInstance">getStateInstance</button>
     <button id="sendMessage">sendMessage</button>
     <button id="sendFileByUrl">sendFileByUrl</button>
 
-    <div id="response">Ответ: </div>
+    <h3>Ответ:</h3>
+    <pre id="response"></pre>
 
     <script src="script.js"></script>
 </body>
